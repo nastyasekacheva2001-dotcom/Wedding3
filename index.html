@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Свадебное приглашение</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root{
+  --bg:#fff0f5;
+  --accent:#ffbfa3;
+  --accent-dark:#ff8f6d;
+  --text:#3b3b3b;
+  --soft:#ffffff;
+  --gold:#f5c07a;
+}
+*{box-sizing:border-box;font-family:Arial,sans-serif;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);}
+a{color:var(--accent-dark);text-decoration:none;}
+section{padding:60px 20px;max-width:800px;margin:auto;text-align:center;display:none;opacity:0;transform:translateY(20px);transition:all 0.8s ease;}
+section.active{display:block;opacity:1;transform:translateY(0);}
+h1,h2{margin-bottom:20px;font-weight:300;}
+h1{font-size:42px;}
+h2{font-size:32px;}
+p{margin-bottom:20px;line-height:1.5;}
+button{cursor:pointer;border:none;border-radius:30px;padding:14px 20px;background:var(--accent);color:white;font-size:16px;margin:10px;transition:0.3s;animation:btnPulse 2s infinite;}
+button:hover{opacity:0.9;}
+@keyframes btnPulse{
+  0%,100%{transform:scale(1);}
+  50%{transform:scale(1.05);}
+}
+input,select,textarea{width:100%;padding:12px;margin:6px 0 16px 0;border-radius:8px;border:1px solid #ddd;}
+textarea{min-height:80px;resize:vertical;}
+nav{position:fixed;top:0;width:100%;background:var(--soft);padding:10px 0;box-shadow:0 2px 10px rgba(0,0,0,0.05);display:flex;justify-content:center;z-index:100;}
+nav button{margin:0 5px;background:var(--accent);color:white;font-size:14px;padding:10px 14px;}
+nav button:hover{opacity:0.9;}
+.hero-photo{width:220px;height:220px;margin:20px auto;border-radius:50%;overflow:hidden;box-shadow:0 15px 40px rgba(0,0,0,.15);}
+.hero-photo img{width:100%;height:100%;object-fit:cover;opacity:0;transform:translateY(20px);animation:fadeIn 1s forwards 0.5s;}
+@keyframes fadeIn{to{opacity:1;transform:translateY(0);}}
+.calendar{position:relative;display:inline-block;margin-top:20px;}
+.calendar img{width:300px;border-radius:12px;}
+.heart{position:absolute;color:red;font-size:28px;animation:heartPulse 1s infinite alternate;}
+@keyframes heartPulse{0%{transform:scale(1);}100%{transform:scale(1.3);}}
+.map iframe{width:100%;height:300px;border:0;border-radius:12px;margin-top:10px;}
+.countdown{font-size:32px;font-weight:bold;margin-top:20px;}
+</style>
+</head>
+<body>
+
+<nav>
+<button onclick="showSection('home')">Главная</button>
+<button onclick="showSection('calendar')">Календарь</button>
+<button onclick="showSection('place')">Место</button>
+<button onclick="showSection('schedule')">Тайминг</button>
+<button onclick="showSection('dress')">Дресс-код</button>
+<button onclick="showSection('countdown')">Отсчет</button>
+<button onclick="showSection('rsvp')">RSVP</button>
+</nav>
+
+<section id="home" class="active">
+<h1>Мы женимся</h1>
+<p>8 августа 2026</p>
+<div class="hero-photo"><img src="photo.jpg" alt="Фото пары"></div>
+<p>Дорогие родные и друзья, будем счастливы видеть вас в этот день 🤍</p>
+<button id="musicBtn">Включить музыку ♫</button>
+</section>
+
+<section id="calendar">
+<h2>Наша дата</h2>
+<div class="calendar">
+<img src="https://i.ibb.co/4pMDFvH/calendar.png" alt="Календарь">
+<span class="heart" style="top:60px;left:120px;">❤️</span>
+</div>
+</section>
+
+<section id="place">
+<h2>Место проведения</h2>
+<p>Адрес: ул. Примерная, 8, Город</p>
+<div class="map">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!..." allowfullscreen="" loading="lazy"></iframe>
+</div>
+</section>
+
+<section id="schedule">
+<h2>Тайминг вечера</h2>
+<p>17:00 — Сбор гостей</p>
+<p>17:30 — Церемония</p>
+<p>18:30 — Фуршет</p>
+<p>19:00 — Танцы и поздравления</p>
+<p>22:00 — Финал вечера</p>
+</section>
+
+<section id="dress">
+<h2>Дресс-код</h2>
+<p>Цветовая гамма: пастельно-зеленый и коричневый</p>
+<p>Советуем легкие летние наряды, аксессуары в тон</p>
+</section>
+
+<section id="countdown">
+<h2>До свадьбы осталось</h2>
+<div class="countdown" id="timer">0д 0ч 0м 0с</div>
+</section>
+
+<section id="rsvp">
+<h2>Ваши ответы</h2>
+<form id="rsvpForm">
+<input placeholder="Ваше имя" required>
+<select required>
+<option value="">Вы придёте?</option>
+<option>Да</option>
+<option>Нет</option>
+<option>Пока не знаю</option>
+</select>
+<select>
+<option>Один / одна</option>
+<option>С парой</option>
+<option>С семьёй</option>
+</select>
+<textarea placeholder="Что вы хотели бы видеть на свадьбе?"></textarea>
+<textarea placeholder="Комментарий"></textarea>
+<button type="submit">Отправить</button>
+</form>
+</section>
+
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('section').forEach(s=>{s.classList.remove('active'); s.style.opacity=0;});
+  const sec=document.getElementById(id);
+  sec.classList.add('active');
+}
+
+let musicPlaying=false;
+const music=document.getElementById('music');
+const musicBtn=document.getElementById('musicBtn');
+musicBtn.onclick=()=>{
+  if(!musicPlaying){music.volume=0.4;music.play();musicBtn.textContent='Выключить музыку ❚❚';}
+  else{music.pause();musicBtn.textContent='Включить музыку ♫';}
+  musicPlaying=!musicPlaying;
+}
+
+document.getElementById('rsvpForm').onsubmit=e=>{
+  e.preventDefault();alert('Спасибо! ❤️');e.target.reset();
+}
+
+function countdown(){
+  const weddingDate=new Date("2026-08-08T00:00:00");
+  const now=new Date();
+  const diff=weddingDate-now;
+  if(diff<=0){document.getElementById('timer').textContent="Свадьба сегодня! 🎉";return;}
+  const days=Math.floor(diff/1000/60/60/24);
+  const hours=Math.floor(diff/1000/60/60%24);
+  const minutes=Math.floor(diff/1000/60%60);
+  const seconds=Math.floor(diff/1000%60);
+  document.getElementById('timer').textContent=`${days}д ${hours}ч ${minutes}м ${seconds}с`;
+}
+setInterval(countdown,1000);
+countdown();
+</script>
+</body>
+</html>
